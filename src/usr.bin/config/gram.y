@@ -142,6 +142,7 @@ static struct condexpr *mk_cx_or(struct condexpr *, struct condexpr *);
 
 static	void	setmachine(const char *, const char *, struct nvlist *, int);
 static	void	check_maxpart(void);
+static	void	check_version(void);
 
 static struct loclist *present_loclist(struct loclist *ll);
 static void app(struct loclist *, struct loclist *);
