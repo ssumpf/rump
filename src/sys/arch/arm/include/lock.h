@@ -105,8 +105,18 @@ static __inline unsigned char
 __swp(unsigned char __val, __cpu_simple_lock_t *__ptr)
 {
 	uint32_t __val32;
+#ifdef _ARM_ARCH_6
 	__asm volatile("swpb	%0, %1, [%2]"
 	    : "=&r" (__val32) : "r" (__val), "r" (__ptr) : "memory");
+#else
+	__asm volatile(" 1:                  \n"
+	               "  ldrexb %0, [%2]    \n"
+	               "  strexb r0, %1, [%2]\n"
+	               "  teqeq  r0, #0      \n"
+	               "  bne 1b             \n"
+	               : "=&r" (__val32) : "r" (__val), "r" (__ptr)
+	               : "memory", "r0");
+#endif
 	return __val32;
 }
 #else
