@@ -210,7 +210,7 @@ ext2fs_inactive(void *v)
 		if (ext2fs_size(ip) != 0) {
 			error = ext2fs_truncate(vp, (off_t)0, 0, NOCRED);
 		}
-		ip->i_e2fs_dtime = time_second;
+		ip->i_e2fs_dtime = 1; /* XXX: use wall-clock time if available */
 		ip->i_flag |= IN_CHANGE | IN_UPDATE;
 		ip->i_omode = 1;
 	}
